@@ -18,6 +18,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.08" />
 
+
     <EditText
         android:id="@+id/name"
         android:layout_width="wrap_content"
@@ -30,10 +31,20 @@
         android:minHeight="48dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView2"
-        app:layout_constraintVertical_bias="0.001" />
+        app:layout_constraintVertical_bias="0.0" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/gradeOneContainer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:helperText="@string/required"
+        app:helperTextTextColor="@android:color/holo_red_light"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/gradeOne"></com.google.android.material.textfield.TextInputLayout>
 
     <EditText
         android:id="@+id/gradeOne"
@@ -46,12 +57,20 @@
         android:minHeight="48dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/name"
-        app:layout_constraintVertical_bias="0.094"
-        tools:ignore="SpeakableTextPresentCheck" />
+        app:layout_constraintVertical_bias="0.099"
+        tools:ignore="HardcodedText,SpeakableTextPresentCheck" />
 
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/gradeTwoContainer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:helperText="@string/required"
+        app:helperTextTextColor="@android:color/holo_red_light"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/gradeTwo"></com.google.android.material.textfield.TextInputLayout>
     <EditText
         android:id="@+id/gradeTwo"
         android:layout_width="wrap_content"
@@ -67,8 +86,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/gradeOne"
         app:layout_constraintVertical_bias="0.115"
-        tools:ignore="SpeakableTextPresentCheck" />
+        tools:ignore="HardcodedText,SpeakableTextPresentCheck" />
 
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/gradeThreeContainer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:helperText="@string/required"
+        app:helperTextTextColor="@android:color/holo_red_light"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/gradeThree"></com.google.android.material.textfield.TextInputLayout>
     <EditText
         android:id="@+id/gradeThree"
         android:layout_width="wrap_content"
@@ -84,7 +112,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/gradeTwo"
         app:layout_constraintVertical_bias="0.123"
-        tools:ignore="SpeakableTextPresentCheck" />
+        tools:ignore="HardcodedText,SpeakableTextPresentCheck" />
 
     <Button
         android:id="@+id/calculateButton"
@@ -96,19 +124,20 @@
         app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/result"
-        app:layout_constraintVertical_bias="0.205" />
+        app:layout_constraintVertical_bias="0.205"
+        tools:ignore="HardcodedText" />
 
     <TextView
         android:id="@+id/result"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="El resultado es:"
+        android:text="@string/el_resultado_es"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/gradeThree"
-        app:layout_constraintVertical_bias="0.124" />
+        app:layout_constraintVertical_bias="0.23" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
