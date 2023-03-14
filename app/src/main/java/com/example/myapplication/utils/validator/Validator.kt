@@ -8,7 +8,6 @@ fun isInRange(minimum: Int, maximum: Int, value: Int): Boolean {
     return true;
 }
 
-
 fun isStringNotEmpty(value: String?): Boolean {
     return !value.isNullOrEmpty();
 }

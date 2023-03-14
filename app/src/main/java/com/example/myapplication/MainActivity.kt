@@ -1,6 +1,5 @@
 package com.example.myapplication
 
-import android.app.Activity
 import androidx.appcompat.app.AppCompatActivity
 import android.widget.TextView
 import android.widget.EditText
@@ -9,10 +8,10 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import com.example.myapplication.databinding.ActivityMainBinding
+import com.example.myapplication.utils.numeric.*
 
 import com.example.myapplication.utils.validator.areStringsNotEmpty
-import com.example.myapplication.utils.numeric.calculateAverage
-import com.example.myapplication.utils.numeric.toDouble
+import com.example.myapplication.utils.validator.isStringNotEmpty
 
 class MainActivity : AppCompatActivity() {
     private lateinit var calculateButton: Button
@@ -26,74 +25,12 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        numbersFocusListener1()
-        numbersFocusListener2()
-        numbersFocusListener3()
 
         initElements()
         initListeners()
     }
-
-    private fun numbersFocusListener1() {
-        binding.gradeOne.setOnFocusChangeListener { _, focused ->
-            if(!focused){
-                binding.gradeOneContainer.helperText = validNUmber1()
-            }
-        }
-    }
-
-    private fun validNUmber1(): String? {
-        val numberText = binding.gradeOne.text.toString()
-        if (!numberText.matches(".*[0-9].*".toRegex())){
-            return "Must be all digits"
-        }
-        if (numberText.length != 1){
-            return "must be 1 digits between 0-9"
-        }
-        return null
-    }
-
-    private fun numbersFocusListener2() {
-        binding.gradeTwo.setOnFocusChangeListener { _, focused ->
-            if(!focused){
-                binding.gradeTwoContainer.helperText = validNUmber2()
-            }
-        }
-    }
-
-    private fun validNUmber2(): String? {
-        val numberText = binding.gradeTwo.text.toString()
-        if (!numberText.matches(".*[0-9].*".toRegex())){
-            return "Must be all digits"
-        }
-        if (numberText.length != 1){
-            return "must be 1 digits between 0-9"
-        }
-        return null
-    }
-
-    private fun numbersFocusListener3() {
-        binding.gradeThree.setOnFocusChangeListener { _, focused ->
-            if(!focused){
-                binding.gradeThreeContainer.helperText = validNUmber3()
-            }
-        }
-    }
-
-    private fun validNUmber3(): String? {
-        val numberText = binding.gradeThree.text.toString()
-        if (!numberText.matches(".*[0-9].*".toRegex())){
-            return "Must be all digits"
-        }
-        if (numberText.length != 1){ //preguntar al profe
-            return "must be 1 digits between 0-9"
-        }
-        return null
-    }
-
 
     private fun initElements() {
         calculateButton = findViewById(R.id.calculateButton)
@@ -106,6 +43,59 @@ class MainActivity : AppCompatActivity() {
 
     private fun initListeners() {
         calculateButton.setOnClickListener(::onCalculateButtonClick)
+        onGradeOneFocus()
+        onGradeTwoFocus()
+        onGradeThreeFocus()
+    }
+
+    private fun onGradeOneFocus() {
+        val gradeOneElement = binding.gradeOne
+
+        gradeOneElement.setOnFocusChangeListener { _, focused ->
+            if(!focused){
+                binding.gradeOneContainer.helperText = validateGradeNumber("one", gradeOneElement)
+            }
+        }
+    }
+
+    private fun onGradeTwoFocus() {
+        val gradeTwoElement = binding.gradeOne
+
+        gradeTwoElement.setOnFocusChangeListener { _, focused ->
+            if(!focused){
+                binding.gradeTwoContainer.helperText = validateGradeNumber("two", gradeTwoElement)
+            }
+        }
+    }
+
+    private fun onGradeThreeFocus() {
+        val gradeTwoElement = binding.gradeOne
+
+        gradeTwoElement.setOnFocusChangeListener { _, focused ->
+            if(!focused){
+                binding.gradeThreeContainer.helperText = validateGradeNumber("three", gradeTwoElement)
+            }
+        }
+    }
+
+    private fun validateGradeNumber(grade: String, gradeElement: EditText): String? {
+        val gradeText = gradeElement.text.toString()
+
+        if (!isStringNotEmpty(gradeText)) {
+            return "Grade $grade missing"
+        }
+
+        if (!isNumeric(gradeText)) {
+            return "Grade $grade must be a number"
+        }
+
+        val gradeNumber = toDouble(gradeText)
+
+        if (!isNumberInRange(0, 1, gradeNumber)) {
+            return "Grade $grade must be between 0 and 1"
+        }
+
+        return null
     }
 
     private fun onCalculateButtonClick(view: View) {
@@ -116,7 +106,7 @@ class MainActivity : AppCompatActivity() {
 
 
         if (!areStringsNotEmpty(gradeOneText, gradeTwoText, gradeThreeText, nameText)) {
-           // showEmptyFieldError(view)
+           // showEmptyFieldsError(view)
             return
         }
 
@@ -124,21 +114,31 @@ class MainActivity : AppCompatActivity() {
         val gradeTwoNumeric = toDouble(gradeTwoText)
         val gradeThreeNumeric = toDouble(gradeThreeText)
 
+        if (!areNumbersInRange(0, 1, gradeOneNumeric, gradeThreeNumeric, gradeTwoNumeric)) {
+            // showGradesNotInRangeError(view)
+            return
+        }
+
         val average = calculateAverage(gradeOneNumeric, gradeTwoNumeric, gradeThreeNumeric)
 
-        showGradesAverageResult(average)
+        showGradesAverageResult(average, nameText)
     }
 
-    private fun showGradesAverageResult(average: Double) {
-        val nameText = name.text.toString()
+    private fun showGradesAverageResult(average: Double, nameText: String) {
         val resultStringBuilder = StringBuilder()
-        resultStringBuilder.append("El resultado es: ")
+        resultStringBuilder.append("The result is: ")
         resultStringBuilder.append(average)
         result.text = resultStringBuilder.toString()
+        showGradesAverageResultToast(average, nameText)
+    }
+
+    private fun showGradesAverageResultToast(average: Double, nameText: String) {
         if (average >= 6.66){
-            Toast.makeText(this, "Congratz you pass the course " , Toast.LENGTH_SHORT).show()
-        }else{
-            Toast.makeText(this, "Feels bad men, good luck next time " , Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Congratulations $nameText! You pass the course" , Toast.LENGTH_SHORT).show()
+            return
         }
+
+        Toast.makeText(this, "Feels bad men. Good luck next time!" , Toast.LENGTH_SHORT).show()
+        return
     }
 }
